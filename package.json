@@ -1,0 +1,31 @@
+{
+  "name": "blockchain-donation-traceability",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arthurtosi/blockchain-donation-traceability.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/arthurtosi/blockchain-donation-traceability/issues"
+  },
+  "homepage": "https://github.com/arthurtosi/blockchain-donation-traceability#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.9",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.7",
+    "@types/node": "^22.20.5",
+    "fallow": "^3.42.0",
+    "forge-std": "github:foundry-rs/forge-std#v1.17.0",
+    "hardhat": "^3.21.2",
+    "typescript": "~6.0.3",
+    "viem": "^2.57.17"
+  },
+  "type": "module"
+}
