@@ -5,8 +5,17 @@ export default defineConfig({
   plugins: [hardhatToolboxViemPlugin],
   solidity: {
     profiles: {
+      // O optimizer fica ligado também no perfil default (usado nos testes):
+      // sem ele, a CampaignFactory (que inclui o bytecode da campanha)
+      // passa do limite de 24 KB por contrato e o deploy falha.
       default: {
         version: "0.8.34",
+        settings: {
+          optimizer: {
+            enabled: true,
+            runs: 200,
+          },
+        },
       },
       production: {
         version: "0.8.34",
