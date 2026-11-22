@@ -44,23 +44,37 @@ Stack: [Hardhat 3](https://hardhat.org/), [`@nomicfoundation/hardhat-toolbox-vie
 npx hardhat test
 ```
 
-Somente TypeScript:
-
-```shell
-npx hardhat test nodejs
-```
-
 ## Deploy
 
 O Ignition implanta apenas a fábrica. As campanhas são criadas depois pela própria fábrica, quando as instituições aprovam uma proposta.
 
-Rede local simulada:
+### Rede local simulada
+
+#### Rede efêmera (só para aquele comando)
+
+Sem `--network`, o Hardhat sobe uma rede em memória, faz o deploy e encerra. O estado some ao terminar o comando:
 
 ```shell
 npx hardhat ignition deploy ignition/modules/CampaignFactory.ts
 ```
 
-Sepolia — configure as variáveis e rode o deploy:
+#### Node local persistente
+
+Em um terminal, sobe o node (fica rodando e mantém o estado):
+
+```shell
+npx hardhat node
+```
+
+Em outro terminal, faz o deploy apontando para esse node:
+
+```shell
+npx hardhat ignition deploy --network localhost ignition/modules/CampaignFactory.ts
+```
+
+### Sepolia
+
+Configure as variáveis e rode o deploy:
 
 ```shell
 npx hardhat keystore set SEPOLIA_RPC_URL
