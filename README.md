@@ -1,57 +1,72 @@
-# Sample Hardhat 3 Project (`node:test` and `viem`)
+# Rastreamento de doações na blockchain
 
-This project showcases a Hardhat 3 project using the native Node.js test runner (`node:test`) and the `viem` library for Ethereum interactions.
+Plataforma on-chain para campanhas de arrecadação de organizações sociais. Doações, alocações, saques e comprovantes ficam registrados na blockchain, permitindo acompanhar o uso dos recursos com transparência.
 
-To learn more about Hardhat 3, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3](https://hardhat.org/hardhat3-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+As regras de negócio estão detalhadas em [`ESPECIFICACAO.md`](./ESPECIFICACAO.md).
 
-## Project Overview
+## Arquitetura
 
-This example project includes:
+Dois contratos Solidity (`^0.8.34`):
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using [`node:test`](https://nodejs.org/api/test.html), the new Node.js native test runner, and [`viem`](https://viem.sh/).
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+| Contrato | Papel |
+|---|---|
+| `CampaignFactory` | Contrato principal. Cadastro e verificação de instituições, propostas de campanha, limites de participação, deploy das campanhas, encerramento e redistribuição do caixa geral. |
+| `FundraisingCampaign` | Um contrato por campanha. Caixa geral, caixas das instituições, doações, alocações, saques e comprovantes (CID/IPFS). |
 
-## Usage
+Fluxo resumido:
 
-### Running Tests
+1. Instituições se cadastram e são verificadas pelo admin da fábrica.
+2. Um administrador propõe uma campanha (instituições + metas). Cada instituição aprova ou recusa (prazo de 30 dias).
+3. Com todas as aprovações e dentro dos limites, a fábrica faz o deploy da campanha.
+4. Doadores depositam no caixa geral; o admin aloca para as instituições; cada instituição saca e registra comprovantes.
+5. No encerramento, o saldo restante do caixa geral vai para a fábrica e é redistribuído às campanhas ativas mais antigas (ou fica em reserva).
 
-To run all the tests in the project, execute the following command:
+## Estrutura do repositório
+
+```text
+contracts/          Contratos Solidity
+test/               Testes de integração TypeScript (node:test + viem)
+ignition/modules/   Módulo Hardhat Ignition (deploy da fábrica)
+scripts/            Scripts auxiliares
+ESPECIFICACAO.md    Regras de negócio
+```
+
+Stack: [Hardhat 3](https://hardhat.org/), [`@nomicfoundation/hardhat-toolbox-viem`](https://hardhat.org/docs) e [viem](https://viem.sh/).
+
+## Pré-requisitos
+
+- Node.js 22+
+- Dependências: `npm install`
+
+## Testes
 
 ```shell
 npx hardhat test
 ```
 
-You can also selectively run the Solidity or `node:test` tests:
+Somente TypeScript:
 
 ```shell
-npx hardhat test solidity
 npx hardhat test nodejs
 ```
 
-### Make a deployment to Sepolia
+## Deploy
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
+O Ignition implanta apenas a fábrica. As campanhas são criadas depois pela própria fábrica, quando as instituições aprovam uma proposta.
 
-To run the deployment to a local chain:
+Rede local simulada:
 
 ```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
+npx hardhat ignition deploy ignition/modules/CampaignFactory.ts
 ```
 
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
-
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
-
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
+Sepolia — configure as variáveis e rode o deploy:
 
 ```shell
+npx hardhat keystore set SEPOLIA_RPC_URL
 npx hardhat keystore set SEPOLIA_PRIVATE_KEY
+
+npx hardhat ignition deploy --network sepolia ignition/modules/CampaignFactory.ts
 ```
 
-After setting the variable, you can run the deployment with the Sepolia network:
-
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
+O deployer da fábrica se torna o `owner` (administrador da fábrica).

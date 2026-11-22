@@ -178,6 +178,9 @@ contract FundraisingCampaign {
 
     /// @notice Saca recursos do caixa da instituição. Permitido mesmo depois
     ///         do encerramento, para o saldo que já pertencia à instituição.
+    /// @dev Uso esperado: sacar a porção de um gasto específico (não o saldo
+    ///      inteiro de uma vez) e depois anexar o comprovante desse gasto em
+    ///      registerReceipt. Cada saque aceita um único comprovante.
     /// @return withdrawalId identificador usado depois em registerReceipt.
     function withdraw(uint256 amount, string calldata description)
         external

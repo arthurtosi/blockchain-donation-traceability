@@ -106,17 +106,19 @@ A meta da campanha é a soma das metas das instituições. Uma doação acima de
 
 8.1. Somente a própria instituição pode sacar recursos do seu caixa, e o valor é enviado para a carteira cadastrada dela.
 
-8.2. Todo saque deve informar uma descrição do gasto e recebe um identificador (`saqueId`).
+8.2. O saque não é pensado como “tirar todo o saldo de uma vez”. A instituição saca a porção correspondente a um gasto específico (ou a um conjunto de gastos cobertos pelo mesmo comprovante), para depois anexar o recibo daquele saque. Cada saque admite um único comprovante; gastos distintos devem gerar saques distintos.
 
-8.3. A instituição vincula o comprovante ao saque posteriormente (por exemplo, após receber a nota fiscal), informando o `saqueId` e o CID/hash do arquivo do comprovante.
+8.3. Todo saque deve informar uma descrição do gasto e recebe um identificador (`saqueId`).
 
-8.4. O arquivo do comprovante fica fora da blockchain (IPFS); o contrato armazena apenas seu CID/hash. Qualquer pessoa pode baixar o arquivo, recalcular o hash e confirmar que ele não foi alterado.
+8.4. A instituição vincula o comprovante ao saque posteriormente (por exemplo, após receber a nota fiscal), informando o `saqueId` e o CID/hash do arquivo do comprovante.
 
-8.5. A interface destaca saques que ainda não possuem comprovante.
+8.5. O arquivo do comprovante fica fora da blockchain (IPFS); o contrato armazena apenas seu CID/hash. Qualquer pessoa pode baixar o arquivo, recalcular o hash e confirmar que ele não foi alterado.
 
-8.6. Limitação: o sistema garante a integridade, a autoria e a data do comprovante, mas não a sua veracidade, que depende de auditoria humana.
+8.6. A interface destaca saques que ainda não possuem comprovante.
 
-8.7. Os saques seguem o padrão checks-effects-interactions (o saldo é atualizado antes da transferência) para evitar ataques de reentrância.
+8.7. Limitação: o sistema garante a integridade, a autoria e a data do comprovante, mas não a sua veracidade, que depende de auditoria humana.
+
+8.8. Os saques seguem o padrão checks-effects-interactions (o saldo é atualizado antes da transferência) para evitar ataques de reentrância.
 
 ## 9. Recursos não utilizados pela instituição
 
