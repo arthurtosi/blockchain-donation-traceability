@@ -29,10 +29,6 @@ export default defineConfig({
     },
   },
   networks: {
-    hardhatMainnet: {
-      type: "edr-simulated",
-      chainType: "l1",
-    },
     sepolia: {
       type: "http",
       chainType: "l1",
