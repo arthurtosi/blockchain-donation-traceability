@@ -235,9 +235,9 @@ contract FundraisingCampaign {
     ///      que confere se quem chamou é o admin, chama esta função,
     ///      atualiza os contadores de limite e redistribui o valor.
     ///      Os caixas das instituições continuam disponíveis para saque.
-    function close() external onlyFactory whenActive returns (uint256 amount) {
+    function close() external onlyFactory whenActive returns (uint256) {
         isActive = false;
-        amount = campaignBalance;
+        uint256 amount = campaignBalance;
         campaignBalance = 0;
         emit CampaignClosed(amount);
 
@@ -245,6 +245,8 @@ contract FundraisingCampaign {
             (bool ok, ) = payable(factory).call{value: amount}("");
             require(ok, TransferFailed(factory, amount));
         }
+
+        return amount;
     }
 
     // ------------------------------------------------------------------
