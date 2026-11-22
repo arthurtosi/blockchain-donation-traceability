@@ -27,7 +27,6 @@ Fluxo resumido:
 contracts/          Contratos Solidity
 test/               Testes de integração TypeScript (node:test + viem)
 ignition/modules/   Módulo Hardhat Ignition (deploy da fábrica)
-scripts/            Scripts auxiliares
 ESPECIFICACAO.md    Regras de negócio
 ```
 
