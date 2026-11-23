@@ -83,3 +83,11 @@ npx hardhat ignition deploy --network sepolia ignition/modules/CampaignFactory.t
 ```
 
 O deployer da fábrica se torna o `owner` (administrador da fábrica).
+
+## Uso de Inteligência Artificial (IA)
+
+O desenvolvimento desse projeto foi assistido por ferramentas de IA durante todo o fluxo, podendo ser detalhado da seguinte forma:
+
+1. **Ideação e geração da especificação**: inicialmente definiu-se manualmente as principais regras de negócio do dApp, em seguida utilizou-se ferramentas de IA para o refino e sugestões de outras funcionalidades.
+2. **Codificação dos contratos**: a partir da especificação dos requisitos foi feita, manualmente, uma versão inicial e enxuta dos contratos, que foi posteriormente aprimorada utilizando ferramentas de IA, visando, por exemplo, à melhoria e organização dos erros e eventos emitidos pelos contratos.
+3. **Codificação dos testes unitários**: dado que a geração de testes unitários é algo bastante mecânico uma vez que se tem um código e uma documentação bem estruturados, solicitou-se à IA para gerar os testes, que foram todos, posteriormente, devidamente verificados e revisados.
